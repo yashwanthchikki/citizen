@@ -5,6 +5,7 @@ const authMiddleware = (req, res, next) => {
     // Try header first, then cookie
     const authHeader = req.headers['authorization'];
     let token = authHeader && authHeader.split(' ')[1];
+    console.log("oi have been hit")
 
     if (!token && req.cookies.token) {
         token = req.cookies.token;
@@ -16,6 +17,7 @@ const authMiddleware = (req, res, next) => {
         if (err) return res.status(403).json({ message: "Invalid token" });
 
         req.user = user;
+        console.log(token)
         next();
     });
 };
