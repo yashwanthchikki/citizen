@@ -2,7 +2,8 @@ const { ulid } = require('ulid');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const SECRET_KEY = "itachi";
-const connect = require("./db.js"); // SQLite connection
+const connect = require("./db.js"); 
+const users=require("../models/users.js")
 
 // ---------------- SIGNUP ----------------
 const signup = async (req, res, next) => {
@@ -29,17 +30,21 @@ const signup = async (req, res, next) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const uid = ulid(); // generate ULID
-  console.log("UID:", uid, typeof uid);
- console.log("Username:", username, typeof username);
-  console.log("Hash:", hashedPassword, typeof hashedPassword);
-
+  const uid = ulid(); 
+  
   try {
     await db.run(
       "INSERT INTO users (uid, username, hashedPassword) VALUES (?, ?, ?)",
       [uid, username, hashedPassword]
 
     );
+    const newUserDoc = new users({
+      userid: uid,
+      username: username,
+     
+    });
+    await newUserDoc.save();
+
     return res.status(201).json({ message: "New user created successfully" });
   } catch (err) {
     return next(new Error("Error inserting user: " + err.message));

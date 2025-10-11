@@ -5,7 +5,7 @@ const auth=require("./auth service/index")
 const path = require("path");
 const reccamendation=require("./section_B,C/section_b/index.js")
 const commen=require("./section_B,C/commen relationship/index.js")
-const { initVectorDB } = require("./vectordb");
+const {initVectorDB} = require("./vectordb");
 const newspaper = require("./newspaper/index.js");
 const errorHandler = require("./middlewheres/errhandaling.js");
 require("dotenv").config();
