@@ -20,7 +20,7 @@ function cosineSimilarity(vec1, vec2) {
         normB += vec2[i] ** 2;
     }
 
-    if (normA === 0 || normB === 0) return 0; // avoid division by zero
+    if (normA === 0 || normB === 0) return 0; 
 
     return dot / (Math.sqrt(normA) * Math.sqrt(normB));
 }
@@ -81,6 +81,7 @@ async function remove_watched(list, user_id) {
 function weightedVectorSum(v1, v2, v3, v4) {
   const len = v1.length;
   const result = new Array(len);
+  console.log("jhvjhvjhvjf")
 
   // weighted sum
   for (let i = 0; i < len; i++) {

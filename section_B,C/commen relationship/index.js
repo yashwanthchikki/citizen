@@ -8,8 +8,7 @@ const router=express.Router()
 router.get("/like", async (req, res) => {
     try {
         const userId = req.user.userid;
-        const assetId = req.query.assetid; // assuming assetid is sent as query param
-
+        const assetId = req.query.assetid; 
         if (!assetId) return res.status(400).json({ message: "Asset ID required" });
 
         // Fetch user and asset

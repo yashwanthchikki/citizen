@@ -1,7 +1,7 @@
 const { recc, remove_watched, weightedVectorSum } = require("../functions.js");
 const express = require("express");
 const router = express.Router();
-const getSentenceVector = require("../vector.js");
+const {getSentenceVector} = require("../vector.js");
 const connectdb = require("../../mangodb.js");
 const users = require("../../models/users.js"); 
 const Asset = require("../../models/assets.js");

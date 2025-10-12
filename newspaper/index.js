@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const connectdb = require("../mangodb");
-const { generateNewsSummary,generateNewsSummaryMock } = require("../services/newspaperService");
+const { generateNewsSummary,generateNewsSummaryMock } = require("./newspaperservice");
 
 router.post("/newspaper", async (req, res, next) => {
   try {

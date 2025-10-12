@@ -17,7 +17,8 @@ const UserSchema = new mongoose.Schema({
 
   uploads: { type: [String], default: [] },
 
-  vector: { type: [Number], default: [] },  
+  
+  vector: { type: [Number], default: Array(384).fill(0) },  
   n_value: { type: Number, default: 0 },
 
   watched_assets: { type: [String], default: [] }
