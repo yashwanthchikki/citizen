@@ -10,6 +10,7 @@ async function loadModel() {
 }
 
 async function getSentenceVector(text) {
+  console.log("this is vector function")
   const model = await loadModel();
   const output = await model(text, { pooling: 'mean', normalize: true });
   return output.data;

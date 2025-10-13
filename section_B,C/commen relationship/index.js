@@ -6,6 +6,7 @@ const router=express.Router()
 
 
 router.get("/like", async (req, res) => {
+    connectdb
     try {
         const userId = req.user.userid;
         const assetId = req.query.assetid; 

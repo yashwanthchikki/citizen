@@ -10,7 +10,7 @@ const w4=1
 // Compute cosine similarity between two vectors
 function cosineSimilarity(vec1, vec2) {
     if (vec1.length !== vec2.length) throw new Error("Vector lengths must match");
-
+    console.log("a")
     let dot = 0;
     let normA = 0;
     let normB = 0;
@@ -29,27 +29,29 @@ async function recc( user_vector) {
     if (!user_vector || user_vector.length === 0) {
         throw new Error("User vector is empty");
     }
-
+    console.log("recc has been hit")
     try {
         await connectdb();
 
-        // Fetch all assets with assetid and vector
+        
         const assets = await Asset.find({}, "assetid vector");
+        console.log("1")
 
         // Filter out assets with empty vectors
         const filteredAssets = assets.filter(asset => asset.vector && asset.vector.length > 0);
-
+        console.log("2")
         // Compute cosine similarity for each asset
         const similarities = filteredAssets.map(asset => ({
             assetid: asset.assetid,
             similarity: cosineSimilarity(user_vector, asset.vector)
         }));
+        console.log("3")
 
         // Sort by similarity descending and return only asset IDs
         const rankedAssetIds = similarities
             .sort((a, b) => b.similarity - a.similarity)
             .map(item => item.assetid);
-
+        console.log("4")
         return rankedAssetIds;
 
     } catch (err) {
@@ -60,24 +62,27 @@ async function recc( user_vector) {
 
 
 async function remove_watched(list, user_id) {
-    try {
-        await connectdb();
+  try {
+    await connectdb();
 
-        // Fetch the user's watched_assets array
-        const user = await User.findOne({ userid: user_id }, "watched_assets");
-        if (!user) throw new Error("User not found");
+    
 
-        const watchedSet = new Set(user.watched_assets); // use a Set for faster lookups
+    // query by userid (not id)
+    const userDoc = await user.findOne({ userid: user_id }, "watched_assets");
+    if (!userDoc) throw new Error("User not found");
 
-        // Filter the list to remove watched asset IDs
-        const filteredList = list.filter(assetId => !watchedSet.has(assetId));
+    const watchedSet = new Set(userDoc.watched_assets);
+    console.log("remove_watched has been hit");
 
-        return filteredList;
+    // filter out watched asset IDs
+    const filteredList = list.filter(assetId => !watchedSet.has(assetId));
 
-    } catch (err) {
-        throw err;
-    }
+    return filteredList;
+  } catch (err) {
+    throw err;
+  }
 }
+
 function weightedVectorSum(v1, v2, v3, v4) {
   const len = v1.length;
   const result = new Array(len);
@@ -89,10 +94,12 @@ function weightedVectorSum(v1, v2, v3, v4) {
     if (v4) sum += w4 * v4[i];
     result[i] = sum;
   }
+  console.log("this has been done too")
 
   // normalize to unit length
   const magnitude = Math.sqrt(result.reduce((acc, val) => acc + val * val, 0));
-  if (magnitude === 0) return result; // avoid division by zero
+  if (magnitude === 0) return result; 
+  console.log("this too")
   return result.map(val => val / magnitude);
 }
 

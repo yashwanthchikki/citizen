@@ -11,10 +11,12 @@ const {generateSignedUrl,generateSigned} = require("../s3.js");
 connectdb();
 
 router.get('/sectionbimages', async (req, res, next) => {
+  console.log("sectionb started")
   try {
     const search = req.query.search || ""; 
     const userid = req.user.id;
-    console.log("jhbjhbjh")
+    
+    console.log("search param:", JSON.stringify(search));
 
     if (search) {
       const user = await users.findOne({ userid }).lean();
@@ -23,8 +25,10 @@ router.get('/sectionbimages', async (req, res, next) => {
       const languageVector = await getSentenceVector(language);
       const scopeVector = await getSentenceVector(scope);
       const searchVector = await getSentenceVector(search);
+      console.log("got all vectors")
 
       const result = weightedVectorSum(languageVector, scopeVector, vector, searchVector);
+      console.log("got result")
       const images = await recc(result);
 
       const topImages = images.slice(0, 8);
@@ -53,10 +57,14 @@ router.get('/sectionbimages', async (req, res, next) => {
 
       const languageVector = await getSentenceVector(language);
       const scopeVector = await getSentenceVector(scope);
-
+      console.log("else has been hit")
       const result = weightedVectorSum(languageVector, scopeVector, vector);
+      console.log("else has been 2")
       const images = await recc(result);
+      console.log(images)
+
       const newimages=await remove_watched(images,userid)
+       console.log("else has been 3")
 
       const topImages = newimages.slice(0, 8);
 
