@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useNavigate } from 'react-router-dom';
 
+
 interface Asset {
   assetid: string;
   title: string;
@@ -73,9 +74,17 @@ setHeights(h);
     setShowUploadMenu(false);
   };
 
-  const handleImageClick = (post: Asset) => {
-    console.log('Opening detail view for:', post);
-  };
+  const handleImageClick = (asset: Asset) => {
+  // Store the clicked image ID for the video feed page
+  localStorage.setItem('selectedAssetId', asset.assetid);
+
+  // Optional: log for debug
+  console.log('Navigating to Video Feed with image:', asset.assetid);
+
+  // Navigate to video feed page
+  navigate('/videofeed');
+};
+
 
   return (
     <div className="h-full bg-paperboy-black flex flex-col">
