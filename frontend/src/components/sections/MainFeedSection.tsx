@@ -26,7 +26,7 @@ const MainFeedSection = () => {
   const fetchAssets = async (search?: string) => {
     setLoading(true);
     try {
-      let url = 'http://localhost:3000/recc/sectionbimages';
+      let url = '/recc/sectionbimages';
       if (search && search.trim() !== '') {
         url += `?search=${encodeURIComponent(search)}`;
       }

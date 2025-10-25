@@ -1,51 +1,43 @@
-const express=require("express")
-const app=express();
-const authentication=require("./middlewheres/authntication.js")
-const auth=require("./auth service/index")
+const express = require("express");
 const path = require("path");
-const reccamendation=require("./section_B,C/section_b/index.js")
-const commen=require("./section_B,C/commen relationship/index.js")
-const {initVectorDB} = require("./vectordb");
-const newspaper = require("./newspaper/index.js");
-const errorHandler = require("./middlewheres/errhandaling.js");
-require("dotenv").config();
 const cookieParser = require("cookie-parser");
+require("dotenv").config();
+
+const app = express();
+
+// Middleware
 app.use(cookieParser());
-
-
-const cors = require("cors");
-
-app.use(cors({
-  origin: true,            
-  credentials: true,       
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
-
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname,"public")))
 
+// Import your routers
+const authRouter = require("./auth service/index");
+const recRouter = require("./section_B,C/section_b/index");
+const commenRouter = require("./section_B,C/commen relationship/index");
+const newspaperRouter = require("./newspaper/index");
 
-//app.use(initVectorDB);
+// Authentication middleware
+const authentication = require("./middlewheres/authntication.js");
+const errorHandler = require("./middlewheres/errhandaling.js");
 
+// API routes
+app.get("/verifytoken", authentication, (req, res) => {
+  res.status(200).json({ message: "token valid" });
+});
 
-app.get("/verifytoken",authentication,(req,res)=>{
-    res.status(200).json({message:"token valied"})
+app.use("/auth", authRouter);
+app.use("/recc", authentication, recRouter);
+app.use("/commen", authentication, commenRouter);
+app.use("/newspaper", authentication, newspaperRouter);
 
-})
-app.use("/auth",auth)
-app.use("/recc",authentication,reccamendation)
-app.use("/commen",authentication,commen)
-app.use("/newspaper", authentication,newspaper); 
+// Serve React SPA
+app.use(express.static(path.join(__dirname, "dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
-
+// Error handler
 app.use(errorHandler);
 
-
-app.listen(3000,()=>{
-    console.log("server is up and running in port 3000")
-})
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

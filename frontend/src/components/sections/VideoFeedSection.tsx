@@ -24,7 +24,7 @@ const VideoFeedSection = () => {
     const fetchVideos = async () => {
       setLoading(true);
       try {
-        const res = await fetch('http://localhost:3000/recc/tiktok', { credentials: 'include' });
+        const res = await fetch('/recc/tiktok', { credentials: 'include' });
         const data = await res.json();
         if (data.success) setVideos(data.assets);
       } catch (err) {
@@ -54,7 +54,7 @@ const VideoFeedSection = () => {
 
   const handleLike = async (assetid: string) => {
   try {
-    const res = await fetch(`http://localhost:3000/commen/like?assetid=${assetid}`, { credentials: 'include' });
+    const res = await fetch(`/commen/like?assetid=${assetid}`, { credentials: 'include' });
     const data = await res.json();
     if (data.message === 'Liked successfully') {
       // Update local state
@@ -67,7 +67,7 @@ const VideoFeedSection = () => {
 
 const handleDislike = async (assetid: string) => {
   try {
-    const res = await fetch(`http://localhost:3000/commen/dislike?assetid=${assetid}`, { credentials: 'include' });
+    const res = await fetch(`/commen/dislike?assetid=${assetid}`, { credentials: 'include' });
     const data = await res.json();
     if (data.message === 'Disliked successfully') {
       setVideos(prev => prev.map(v => 
@@ -79,7 +79,7 @@ const handleDislike = async (assetid: string) => {
 
 const handleSubscribe = async (assetid: string, subscribed: boolean) => {
   try {
-    const url = `http://localhost:3000/commen/${subscribed ? 'unsubscribe' : 'subscribe'}?assetid=${assetid}`;
+    const url = `/commen/${subscribed ? 'unsubscribe' : 'subscribe'}?assetid=${assetid}`;
     const res = await fetch(url, { credentials: 'include' });
     const data = await res.json();
     if (data.message.includes('successfully')) {

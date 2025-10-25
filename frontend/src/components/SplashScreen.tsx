@@ -49,7 +49,7 @@ const SplashScreen = () => {
     <div className="min-h-screen bg-paperboy-black flex items-center justify-center">
       <div className="text-center">
         <h1 className="text-6xl font-bold text-paperboy-white mb-8 tracking-wider">
-          PAPERBOY
+          CIIZEN
         </h1>
         <div className="w-16 h-1 bg-paperboy-red mx-auto animate-pulse"></div>
       </div>

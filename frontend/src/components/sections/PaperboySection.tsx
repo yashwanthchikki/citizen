@@ -22,6 +22,7 @@ const PaperboySection = () => {
     { value: 'au', label: 'Australia' },
     { value: 'de', label: 'Germany' },
     { value: 'fr', label: 'France' },
+    { value: 'ind', label: 'India' }
   ];
 
   const handleGenerateNewspaper = async () => {

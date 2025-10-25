@@ -17,7 +17,7 @@ const SignInPage = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/auth/signin", {
+      const res = await fetch("/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // important to receive cookie
